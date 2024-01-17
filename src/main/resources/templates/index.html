@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/style.css">
+    <title>Amazon Product Api</title>
+</head>
+<body>
+    <div class="master">
+        <h1>Amazon Products</h1>
+        <img src="images/amazon_logo.png" alt="amazon logo">
+    </div>
+    <div class="container">
+        <h2>Product Form</h2>
+        <form th:action="@{/api/product/create}" th:object="${product}" method="post">
+            <label for="productName">Product Name:</label>
+            <input th:field="*{name}" type="text" id="productName" name="productName" required>
+
+            <label for="price">Price:</label>
+            <input th:field="*{price}" type="number" id="price" name="price" step="0.01" required>
+
+            <label for="mrpPrice">MRP Price:</label>
+            <input th:field="*{mrp}" type="number" id="mrpPrice" name="mrpPrice" step="0.01" required>
+
+            <label for="description">Description:</label>
+            <textarea th:field="*{description}" id="description" name="description" rows="4" required></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
