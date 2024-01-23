@@ -3,6 +3,7 @@ spring:
         url: "jdbc:postgresql://localhost:5432/products"
         username: "bapun"
         password: "malik@123"
+        driver-class-name: org.postgresql.Driver
     jpa:
         hibernate: 
             ddl-auto: update

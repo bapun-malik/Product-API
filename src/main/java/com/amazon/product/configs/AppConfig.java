@@ -1,5 +1,6 @@
 package com.amazon.product.configs;
 
+
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

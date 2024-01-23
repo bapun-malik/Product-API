@@ -8,23 +8,25 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazon.product.dto.ProductDto;
+import com.amazon.product.dto.ProductResponse;
 import com.amazon.product.exceptions.UserNotFoundException;
 import com.amazon.product.mapper.ConvertToProductDtoFromJson;
 import com.amazon.product.service.FileService;
 import com.amazon.product.service.ProductService;
+import com.amazon.product.utils.AppConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,7 +38,6 @@ public class ProductCrudController {
 
     private ProductService service;
     private ConvertToProductDtoFromJson converter;
-
     private FileService fileService;
     @Value("${project.poster}")
     private String path;
@@ -63,11 +64,13 @@ public class ProductCrudController {
 
 
 
-    // @PostMapping("/api/product/create")
-    // public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto){
-    //     ProductDto returnedProduct=service.createProduct(productDto);
-    //     return new ResponseEntity<ProductDto>(returnedProduct, HttpStatus.CREATED);
+    // @PostMapping("/create")
+    // public ResponseEntity<String> createProduct(){
+    //     AddProductService ser=new AddProductService(jdbcTemplate);
+	//     ser.addProducts();
+    //     return new ResponseEntity<>("succesfully created",HttpStatus.CREATED);
     // }
+
     // @PostMapping("/api/product/create")
     // public String createProduct(@Valid @ModelAttribute ProductDto product){
     //     service.createProduct(product);
@@ -97,7 +100,7 @@ public class ProductCrudController {
         if(!product.isEmpty()){
             return new ResponseEntity<>(product,HttpStatus.OK);
         }else{
-            throw new UserNotFoundException();
+            throw new UserNotFoundException("user not found");
         }
     }
 
@@ -121,5 +124,23 @@ public class ProductCrudController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    @GetMapping("/getAllProducts")
+    public ResponseEntity<ProductResponse> getAllTheProducts(
+        @RequestParam(defaultValue = AppConstants.PAGE_NUMBER,required = false) Integer pageNumber,
+        @RequestParam(defaultValue=AppConstants.PAGE_SIZE,required=false) Integer pageSize
+    ){
+        return new ResponseEntity<>(service.getAllTheProducts(pageNumber, pageSize),HttpStatus.OK);
+    }
+    
+    @GetMapping("/getSortedProducts")
+    public ResponseEntity<ProductResponse> getAllTheProducts(
+        @RequestParam(defaultValue = AppConstants.PAGE_NUMBER,required = false) Integer pageNumber,
+        @RequestParam(defaultValue=AppConstants.PAGE_SIZE,required=false) Integer pageSize,
+        @RequestParam(defaultValue = AppConstants.SORT_BY,required = false) String sortBy,
+        @RequestParam(defaultValue = AppConstants.SORT_DIR,required = false) String dir
+    ){
+        return new ResponseEntity<>(service.getAllTheProductsWithSorting(pageNumber, pageSize,sortBy,dir),HttpStatus.OK);
+    }
 
 }

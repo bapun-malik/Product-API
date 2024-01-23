@@ -3,6 +3,7 @@ package com.amazon.product.exceptions;
 import java.io.IOException;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,12 +11,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ProductExceptions {
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<String> userNotFoundExceptionHandler(IOException e){
-        return new ResponseEntity<>(e.getMessage(),HttpStatus.NO_CONTENT);
+    public ProblemDetail userNotFoundExceptionHandler(IOException e){
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND,e.getMessage());
     }
 
     @ExceptionHandler(FileNameContainsSpace.class)
-    public ResponseEntity<String> fileNotSupported(FileNameContainsSpace e){
-        return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+    public ProblemDetail fileNotSupported(FileNameContainsSpace e){
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,e.getMessage());
     }
 }
