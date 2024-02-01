@@ -3,6 +3,6 @@ package com.amazon.product.auth.utils;
 import lombok.Data;
 
 @Data
-public class RefreshTokenrequest {
+public class RefreshTokenRequest {
     private String refreshToken;
 }

@@ -25,7 +25,7 @@ public class RefreshTokenService {
         User user=userRepo.findByEmail(username).orElseThrow(()->new UsernameNotFoundException("username not found with email:"+username));
         RefreshToken refreshToken=user.getRefreshToken();
         if(refreshToken==null){
-            long refreshTokenValidity=30*1000;
+            long refreshTokenValidity=30*60*60*1000;
             refreshToken=RefreshToken
                             .builder()
                             .refreshToken(UUID.randomUUID().toString())
