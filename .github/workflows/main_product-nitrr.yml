@@ -20,9 +20,13 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '17'
+          maven-version: '3.9.6'
+
+      - name: Clear Maven Cache
+        run: mvn dependency:purge-local-repository
 
       - name: Build with Maven
-        run: mvn clean install -U
+        run: mvn clean install -DskipTests -Dmaven.compiler.source=17 -Dmaven.compiler.target=17
       
 
       - name: Upload artifact for deployment job
