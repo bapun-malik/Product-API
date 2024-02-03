@@ -99,6 +99,20 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-maven-plugin</artifactId>
+            <version>1.18.24</version> <!-- Use the latest version available -->
+            <executions>
+                <execution>
+                	<?m2e execute onConfiguration,onIncremental?>
+                    <phase>generate-sources</phase>
+                    <goals>
+                        <goal>delombok</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
 		</plugins>
 	</build>
 
