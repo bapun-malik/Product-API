@@ -50,10 +50,6 @@ public class ProductCrudController {
         this.fileService=fileService;
     }
 
-    // @GetMapping("/api/products")
-    // public ResponseEntity<List<Product>> showAllProduct(){
-        
-    // }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/create")
@@ -64,32 +60,6 @@ public class ProductCrudController {
         return new ResponseEntity<ProductDto>(service.save(product,file), HttpStatus.CREATED);
     }
 
-
-
-
-    // @PostMapping("/create")
-    // public ResponseEntity<String> createProduct(){
-    //     AddProductService ser=new AddProductService(jdbcTemplate);
-	//     ser.addProducts();
-    //     return new ResponseEntity<>("succesfully created",HttpStatus.CREATED);
-    // }
-
-    // @PostMapping("/api/product/create")
-    // public String createProduct(@Valid @ModelAttribute ProductDto product){
-    //     service.createProduct(product);
-    //     return "redirect:/success";
-    // }
-
-
-
-
-
-
-
-    @GetMapping("/success")
-    public String showSuccess(@PathVariable String success){
-        return "index";
-    }
 
     @GetMapping(path="/products")
     public ResponseEntity<List<ProductDto>> provideAllTheProduct(){
@@ -106,13 +76,6 @@ public class ProductCrudController {
             throw new UserNotFoundException("user not found");
         }
     }
-
-
-    // @PostMapping(path="/upload")
-    // public ResponseEntity<String> uploadFile(@RequestPart MultipartFile file) throws IOException{
-    //     String uploadedFileName=fileService.uploadFile(path, file);
-    //     return ResponseEntity.ok("file Uploaded successfully :"+uploadedFileName);
-    // }
 
     @GetMapping(path="/files/{filename}")
     public void serveTheFile(@PathVariable String filename ,HttpServletResponse res) throws IOException{
